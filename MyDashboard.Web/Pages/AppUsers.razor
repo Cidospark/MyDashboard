@@ -1,0 +1,47 @@
+@page "/users"
+@inherits AppUsersBase
+
+<PageTitle>Users</PageTitle>
+
+<h1>Users</h1>
+
+List of registered users on this app.
+
+<table>
+    <thead>
+        <tr>
+            <th class="first-col">
+                Photo
+            </th>
+            <th>
+                Full Name & Email
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Department
+            </th>
+
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in AppUsers){
+            <tr>
+                <td class="first-col"></td>
+                <td>
+                    <div>@user.FirstName @user.LastName</div>
+                    <small style="font-size: 11px;">@user.Email</small>
+                </td>
+                <td>@user.Gender</td>
+                <td>@user.Department.DepartmentName</td>
+                <td>
+                    <a href="#">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

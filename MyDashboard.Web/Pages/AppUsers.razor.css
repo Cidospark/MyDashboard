@@ -1,0 +1,12 @@
+table, tr, td, th{
+    width: 100%;
+    border-bottom: 1px solid #42434a;
+    padding: 10px 15px;
+}
+table{
+    border-top: 1px solid #42434a;
+    margin-top: 60px;
+}
+.first-col{
+    width: 40px;
+}
