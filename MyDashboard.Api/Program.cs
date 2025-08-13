@@ -1,8 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+
+// Add project specific services
+builder.Services.AddDbContext<MyDashboardDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("MyDashboardDb")));
+
 
 var app = builder.Build();
 
@@ -39,3 +47,12 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
+/*
+// {
+//   "AllowedHosts": "*",
+//   "MyDashboardApiSettings": {
+//     "BaseUrl": "https://localhost:5001/api"
+//   }
+// }
+*/
