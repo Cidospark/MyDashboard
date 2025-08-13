@@ -6,17 +6,22 @@
 <h1>Users</h1>
 
 List of registered users on this app.
-
-<table>
+@if( AppUsers == null)
+{
+    <p>Loading...</p>
+}
+else if(AppUsers.Any())
+{
+    <table>
     <thead>
         <tr>
-            <th class="first-col">
+            <th class="small-col">
                 Photo
             </th>
-            <th>
+            <th class="name-col" style="text-align: left;">
                 Full Name & Email
             </th>
-            <th>
+            <th class="small-col">
                 Gender
             </th>
             <th>
@@ -31,12 +36,23 @@ List of registered users on this app.
     <tbody>
         @foreach(var user in AppUsers){
             <tr>
-                <td class="first-col"></td>
-                <td>
+                <td class="small-col">
+                    @if (user.PhotoPath != null)
+                    {
+                        <div class="user-photo-thumbnail">
+                            <img src="@user.PhotoPath" alt="User Photo" /></div>
+                    }
+                    else
+                    {
+                        <div class="user-photo-thumbnail">
+                        <img src="images/default-user.png" alt="Default User Photo"  /></div>
+                    }
+                </td>
+                <td class="name-col"  style="text-align: left;">
                     <div>@user.FirstName @user.LastName</div>
                     <small style="font-size: 11px;">@user.Email</small>
                 </td>
-                <td>@user.Gender</td>
+                <td class="small-col">@user.Gender</td>
                 <td>@user.Department.DepartmentName</td>
                 <td>
                     <a href="#">Edit</a>
@@ -45,3 +61,6 @@ List of registered users on this app.
         }
     </tbody>
 </table>
+}else{
+    <p>No users found.</p>
+}

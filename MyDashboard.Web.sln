@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDashboard.Web", "MyDashbo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDashboard.Models", "MyDashboard.Models\MyDashboard.Models.csproj", "{2D5B16E4-0B85-4683-BA38-2717A4F0D176}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDashboard.Api", "MyDashboard.Api\MyDashboard.Api.csproj", "{BE8B718C-F536-448A-97CE-F23CD536FED8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{2D5B16E4-0B85-4683-BA38-2717A4F0D176}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D5B16E4-0B85-4683-BA38-2717A4F0D176}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D5B16E4-0B85-4683-BA38-2717A4F0D176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE8B718C-F536-448A-97CE-F23CD536FED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE8B718C-F536-448A-97CE-F23CD536FED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE8B718C-F536-448A-97CE-F23CD536FED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE8B718C-F536-448A-97CE-F23CD536FED8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

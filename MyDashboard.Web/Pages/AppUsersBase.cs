@@ -12,7 +12,6 @@ public class AppUsersBase : ComponentBase
 
     private void LoadUsers()
     {
-
         AppUser e1 = new AppUser
             {
                 AppUserId = 1,
