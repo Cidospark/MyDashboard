@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyDashboard.Api.Data.Migrations
 {
     [DbContext(typeof(MyDashboardDbContext))]
-    [Migration("20250813133824_SeedDummyData")]
-    partial class SeedDummyData
+    [Migration("20250815211741_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,9 +35,6 @@ namespace MyDashboard.Api.Data.Migrations
                     b.Property<DateTime>("DateOfBrith")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -59,37 +56,7 @@ namespace MyDashboard.Api.Data.Migrations
 
                     b.HasKey("AppUserId");
 
-                    b.HasIndex("DepartmentId");
-
                     b.ToTable("AppUsers");
-                });
-
-            modelBuilder.Entity("Department", b =>
-                {
-                    b.Property<int>("DepartmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DepartmentId"));
-
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("DepartmentId");
-
-                    b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("AppUser", b =>
-                {
-                    b.HasOne("Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
                 });
 #pragma warning restore 612, 618
         }

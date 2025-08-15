@@ -8,7 +8,6 @@ public class MyDashboardDbContext : DbContext
     }
 
     public DbSet<AppUser> AppUsers { get; set; }
-    public DbSet<Department> Departments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
