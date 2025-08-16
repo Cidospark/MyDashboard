@@ -6,6 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpClient<IUserService, UserService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5132/");
+}).ConfigurePrimaryHttpMessageHandler(()=>
+{
+    return new SocketsHttpHandler
+    {
+        PooledConnectionLifetime = TimeSpan.FromMinutes(5)
+    };
+}).SetHandlerLifetime(Timeout.InfiniteTimeSpan);
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 public class SearchOptions
 {
-    public string FirstName { get; set; }
+    public string FirstName { get; set; } = "";
     public Gender Gender { get; set; }
 }
 

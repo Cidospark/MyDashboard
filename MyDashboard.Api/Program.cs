@@ -5,6 +5,13 @@ using Microsoft.OpenApi.Writers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options => options.AddPolicy("CorsApp", builder =>
+{
+    builder.AllowAnyOrigin()
+           .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD")
+           .AllowAnyHeader();
+}));
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -34,12 +41,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsApp");
 app.UseHttpsRedirection();
 
 
 
 
-app.MapGet("/users", async ([AsParameters] SearchOptions searchOptions ) =>
+app.MapGet("/api/users", async ([AsParameters] SearchOptions searchOptions ) =>
 {
     using var scope = app.Services.CreateScope();
     var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
@@ -68,7 +76,7 @@ app.MapGet("/users", async ([AsParameters] SearchOptions searchOptions ) =>
 .WithName("GetUsers");
 
 
-app.MapGet("/users/{id:int}", async (int id) =>
+app.MapGet("/api/users/{id:int}", async (int id) =>
 {
     using var scope = app.Services.CreateScope();
     var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
@@ -98,7 +106,7 @@ app.MapGet("/users/{id:int}", async (int id) =>
 .WithName("GetUser");
 
 
-app.MapPost("/users", async ([FromBody]AppUser userModel) =>
+app.MapPost("/api/users", async ([FromBody]AppUser userModel) =>
 {
     var responseErrors = new Dictionary<string, List<string>> { };
     using var scope = app.Services.CreateScope();
@@ -141,7 +149,7 @@ app.MapPost("/users", async ([FromBody]AppUser userModel) =>
 .WithName("AddUser");
 
 
-app.MapPut("/users/{id:int}", async (int id, [FromBody] AppUser model) =>
+app.MapPut("/api/users/{id:int}", async (int id, [FromBody] AppUser model) =>
 {
     var responseErrors = new Dictionary<string, List<string>> { };
     // get service
@@ -184,7 +192,7 @@ app.MapPut("/users/{id:int}", async (int id, [FromBody] AppUser model) =>
 }).WithName("UpdateUser");
 
 
-app.MapDelete("/users/{id:int}", async (int id) =>
+app.MapDelete("/api/users/{id:int}", async (int id) =>
 {
     var responseErrors = new Dictionary<string, List<string>> { };
     using var scope = app.Services.CreateScope();
