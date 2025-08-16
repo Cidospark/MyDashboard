@@ -32,6 +32,11 @@ public class UserRepository : IUserRepository
         return await _myDashboardDbContext.AppUsers.FirstOrDefaultAsync(u => u.AppUserId == userId);
     }
 
+    public async Task<AppUser> GetAppUserByEmailAsync(string email)
+    {
+        return await _myDashboardDbContext.AppUsers.FirstOrDefaultAsync(u => u.Email == email);
+    }
+
     public async Task<IEnumerable<AppUser>> GetUsersAsync()
     {
         return await _myDashboardDbContext.AppUsers.ToListAsync();

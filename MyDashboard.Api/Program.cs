@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Domivue API",
+                    Title = "User Dashboard API",
                     Version = "v1",
                 });
             });
@@ -39,13 +39,26 @@ app.UseHttpsRedirection();
 
 
 
-app.MapGet("/users", async () =>
+app.MapGet("/users", async ([AsParameters] SearchOptions searchOptions ) =>
 {
     using var scope = app.Services.CreateScope();
     var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
     try
     {
-        return Results.Ok(await userRepo.GetUsersAsync());
+        var users = await userRepo.GetUsersAsync();
+        
+        // filter
+        if (!string.IsNullOrEmpty(searchOptions.FirstName) && !string.IsNullOrWhiteSpace(searchOptions.FirstName))
+            users = users.Where(x => x.FirstName.ToLower().Contains(searchOptions.FirstName.ToLower()));
+        if((int)searchOptions.Gender > 0 && (int)searchOptions.Gender < 4)
+            users = users.Where(x => x.Gender == searchOptions.Gender);
+
+        return Results.Ok(new ResponseDto<IEnumerable<AppUser>>()
+        {
+            Title = "Result of all users.",
+            Status = "200",
+            Data = users
+        });
     }
     catch (Exception)
     {
@@ -54,13 +67,28 @@ app.MapGet("/users", async () =>
 })
 .WithName("GetUsers");
 
-app.MapGet("/users{id:int}", async (int id) =>
+
+app.MapGet("/users/{id:int}", async (int id) =>
 {
     using var scope = app.Services.CreateScope();
     var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
     try
     {
-        return Results.Ok(await userRepo.GetAppUserAsync(id));
+        var user = await userRepo.GetAppUserAsync(id);
+        if (user == null)
+        {
+            return Results.NotFound(new ResponseDto<AppUser>()
+            {
+                Title = $"No result found for user with id: {id}",
+                Status = "404"
+            });
+        }
+        return Results.Ok(new ResponseDto<AppUser>()
+            {
+                Title = $"Result of user by id: {id}",
+                Status = "200",
+                Data = user
+            });
     }
     catch (Exception)
     {
@@ -69,20 +97,43 @@ app.MapGet("/users{id:int}", async (int id) =>
 })
 .WithName("GetUser");
 
+
 app.MapPost("/users", async ([FromBody]AppUser userModel) =>
 {
+    var responseErrors = new Dictionary<string, List<string>> { };
     using var scope = app.Services.CreateScope();
     var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
     try
     {
-        if (userModel == null)
-            return Results.BadRequest();
+        if (userModel == null) {
+            responseErrors.Add("Null object", new List<string> { "Provide value to proceed."} );
+            return Results.BadRequest(new ResponseDto<AppUser>()
+            {
+                Title = "One or more validation errors occurred.",
+                Status = "400",
+                Errors = responseErrors
+            });
+        }
+        
+        // Add custom model validation error
+        var user = await userRepo.GetAppUserByEmailAsync(userModel.Email);
+
+        if(user != null && user.Email == userModel.Email)
+        {
+            responseErrors.Add("Email", new List<string> { "Email already exists."} );
+            return Results.BadRequest(new ResponseDto<AppUser>()
+            {
+                Title = "One or more validation errors occurred.",
+                Status = "400",
+                Errors = responseErrors
+            });
+        }
 
         var createdUser = await userRepo.AddAppUserAsync(userModel);
 
         return Results.Created($"/users/{createdUser.AppUserId}", createdUser);
     }
-    catch (Exception)
+    catch (Exception ex)
     {
         return Results.StatusCode(StatusCodes.Status500InternalServerError);
     }
@@ -90,7 +141,80 @@ app.MapPost("/users", async ([FromBody]AppUser userModel) =>
 .WithName("AddUser");
 
 
+app.MapPut("/users/{id:int}", async (int id, [FromBody] AppUser model) =>
+{
+    var responseErrors = new Dictionary<string, List<string>> { };
+    // get service
+    using var scope = app.Services.CreateScope();
+    var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+    try
+    {
+        var user = await userRepo.GetAppUserAsync(id);
+        if (user == null)
+        {
+            return Results.NotFound(new ResponseDto<AppUser>
+            {
+                Title = $"No result found for user with id: {id}",
+                Status = "404"
+            });
+        }
 
+        user.DateOfBrith = model.DateOfBrith;
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.Email = model.Email;
+        user.Gender = model.Gender;
+        user.PhotoPath = model.PhotoPath;
+
+        var updated = await userRepo.UpdateAppUserAsync(user);
+
+        return Results.Ok(new ResponseDto<AppUser>
+        {
+            Title = $"User:{user.AppUserId} updated successfully.",
+            Status = "200",
+            Data = user
+        });
+
+    }
+    catch (Exception)
+    {
+        return Results.StatusCode(StatusCodes.Status500InternalServerError);
+    }
+    
+}).WithName("UpdateUser");
+
+
+app.MapDelete("/users/{id:int}", async (int id) =>
+{
+    var responseErrors = new Dictionary<string, List<string>> { };
+    using var scope = app.Services.CreateScope();
+    var userRepo = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+    try
+    {
+        var user = await userRepo.GetAppUserAsync(id);
+        if (user == null)
+        {
+            return Results.NotFound(new ResponseDto<AppUser>
+            {
+                Title = $"No result found for user with id: {id}",
+                Status = "404"
+            });
+        }
+
+        await userRepo.DeleteAppUserAsync(user.AppUserId);
+
+        return Results.Ok(new ResponseDto<AppUser>
+        {
+            Title = $"User:{user.AppUserId} deleted successfully",
+            Status = "200"
+        });
+    }
+    catch (Exception)
+    {
+        return Results.StatusCode(StatusCodes.Status500InternalServerError);
+    }
+}
+).WithName("DeleteUser");
 
 
 app.Run();
