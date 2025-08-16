@@ -10,16 +10,16 @@ public class UserRepository : IUserRepository
         _myDashboardDbContext = myDashboardDbContext;
     }
 
-    public async Task<AppUser> AddAppUser(AppUser user)
+    public async Task<AppUser> AddAppUserAsync(AppUser user)
     {
         var result = await _myDashboardDbContext.AppUsers.AddAsync(user);
         await _myDashboardDbContext.SaveChangesAsync();
         return result.Entity;
     }
 
-    public async Task DeleteAppUser(int userId)
+    public async Task DeleteAppUserAsync(int userId)
     {
-        var AppUser = await GetAppUser(userId);
+        var AppUser = await GetAppUserAsync(userId);
         if (AppUser != null)
         {
             _myDashboardDbContext.Remove(AppUser);
@@ -27,19 +27,19 @@ public class UserRepository : IUserRepository
         }
     }
 
-    public async Task<AppUser> GetAppUser(int userId)
+    public async Task<AppUser> GetAppUserAsync(int userId)
     {
         return await _myDashboardDbContext.AppUsers.FirstOrDefaultAsync(u => u.AppUserId == userId);
     }
 
-    public async Task<IEnumerable<AppUser>> GetUsers()
+    public async Task<IEnumerable<AppUser>> GetUsersAsync()
     {
         return await _myDashboardDbContext.AppUsers.ToListAsync();
     }
 
-    public async Task<AppUser> UpdateAppUser(AppUser user)
+    public async Task<AppUser> UpdateAppUserAsync(AppUser user)
     {
-        var result = await GetAppUser(user.AppUserId);
+        var result = await GetAppUserAsync(user.AppUserId);
         if (result != null)
         {
             result.FirstName = user.FirstName;
