@@ -20,26 +20,6 @@ public class AppUsersBase : ComponentBase
             FirstName = "",
             Gender = 0
         };
-        try
-        {
-            AppUsers = await _userService.GetUsersAsync(options);
-        }
-        catch(Exception ex)
-        {
-            throw;
-        }
-        // AppUsers = new List<AppUser>
-        // {
-        //     new AppUser
-        //     {
-        //         AppUserId = 2,
-        //         FirstName = "Sam",
-        //         LastName = "Galloway",
-        //         Email = "Sam@pragimtech.com",
-        //         DateOfBrith = new DateTime(1981, 12, 22),
-        //         Gender = Gender.Male,
-        //         PhotoPath = "images/sam.jpg"
-        //     }
-        // };
-        }
+        AppUsers = await _userService.GetUsersAsync(options);
+    }
 }
