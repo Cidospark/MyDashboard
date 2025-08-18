@@ -14,17 +14,17 @@ else if(AppUsers.Any())
 {
     <table>
     <thead>
-        <tr>
+        <tr style="transform: none;">
             <th class="small-col">
                 Photo
             </th>
-            <th class="name-col" style="text-align: left;">
+            <th class="medium-col" style="text-align: left;">
                 Full Name & Email
             </th>
             <th class="small-col">
                 Gender
             </th>
-            <th>
+            <th style="text-align: left;" >
                 Birth Day
             </th>
 
@@ -37,23 +37,27 @@ else if(AppUsers.Any())
         @foreach(var user in AppUsers){
             <tr>
                 <td class="small-col">
-                    @if (user.PhotoPath != null)
-                    {
-                        <div class="user-photo-thumbnail">
-                            <img src="@user.PhotoPath" alt="User Photo" /></div>
-                    }
-                    else
-                    {
-                        <div class="user-photo-thumbnail">
-                        <img src="images/default-user.png" alt="Default User Photo"  /></div>
-                    }
+                    <a href="@($"users/{user.AppUserId}/profile")">
+                        @if (user.PhotoPath != null)
+                        {
+                            <div class="user-photo-thumbnail">
+                                <img src="@user.PhotoPath" alt="User Photo" /></div>
+                        }
+                        else
+                        {
+                            <div class="user-photo-thumbnail">
+                            <img src="images/default-user.png" alt="Default User Photo"  /></div>
+                        }
+                    </a>
                 </td>
-                <td class="name-col"  style="text-align: left;">
-                    <div>@user.FirstName @user.LastName</div>
-                    <small style="font-size: 11px;">@user.Email</small>
+                <td class="medium-col"  style="text-align: left;">
+                    <a href="@($"users/{user.AppUserId}/profile")">
+                        <div>@user.FirstName @user.LastName</div>
+                        <small style="font-size: 11px;">@user.Email</small>
+                    </a>
                 </td>
                 <td class="small-col">@user.Gender</td>
-                <td>@user.DateOfBrith</td>
+                <td  style="text-align: left;" >@user.DateOfBrith.ToString("D")</td>
                 <td>
                     <a href="#">Edit</a>
                 </td>

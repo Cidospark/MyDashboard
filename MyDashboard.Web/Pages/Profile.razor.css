@@ -1,0 +1,14 @@
+.user-card-header{
+     background-color: transparent; 
+     color: grey;
+     border: 1px solid grey;
+     border-radius: 6px;
+     padding-left: 30px;
+     display: flex;
+     justify-content: space-between;
+     flex-wrap: nowrap;
+}
+
+.hide-footer{
+    display: none;
+}

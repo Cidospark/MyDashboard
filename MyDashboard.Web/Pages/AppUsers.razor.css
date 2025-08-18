@@ -3,16 +3,20 @@ table, tr, td, th{
     border-bottom: 1px solid #42434a;
     padding: 10px 20px;
     text-align: center;
+    transition: transform 0.3s ease;
 }
 table{
     border-top: 1px solid #42434a;
     margin-top: 60px;
 }
-.small-col{
-    width: 70px;
+table tr:hover{
+    transform: scale(1.01);
 }
-.name-col{
-    width: 35%;
+.small-col{
+    width: 20%;
+}
+.medium-col{
+    width: 30%;
 }
 .user-photo-thumbnail {
     display: inline-block;

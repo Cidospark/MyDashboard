@@ -1,0 +1,32 @@
+@page "/users/{id}/profile"
+@inherits ProfileBase
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card" style="background-color: transparent;">
+            @if(appUser == null)
+            {
+
+            }else{
+                <div class="card-header user-card-header">
+                    <h1>@appUser.FirstName @appUser.LastName</h1>
+                    <button class="btn btn-primary" @onclick="Toggle_Button">@buttonText</button>
+                </div>
+
+
+                <div class="card-body text-center">
+                    <img class="card-img-top" style="max-width: 500px; margin-bottom:20px" src="@appUser.PhotoPath" />
+
+                    <h4>ID : @appUser.AppUserId</h4>
+                    <h4>Email : @appUser.Email</h4>
+                </div>
+                <div class="card-footer text-center @toggleBtnClass">
+                    <a href="/users" class="btn btn-primary">Back</a>
+                    <a href="#" class="btn btn-primary">Edit</a>
+                    <a href="#" class="btn btn-danger">Delete</a>
+                </div>
+            }
+        </div>
+        
+    </div>
+</div>
