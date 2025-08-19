@@ -1,5 +1,20 @@
 @page "/users/{id}/profile"
+@page "/users/profile"
 @inherits ProfileBase
+
+<PageTitle>Profile</PageTitle>
+
+<h1>
+     @if(appUser == null){
+        <spa>Student profile.</spa>
+     }else{
+        <span>@appUser.FirstName's profile.</span>
+    }
+</h1>
+
+Student's profile details.
+<br />
+<br />
 
 <div class="row justify-content-center m-3">
     <div class="col-sm-8">

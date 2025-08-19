@@ -1,0 +1,47 @@
+@page "/data-binding"
+@inherits DataBindingBase
+
+<PageTitle>Data binding</PageTitle>
+
+<h1>Two way binding</h1>
+
+Binding data flow from UI => Component and Component => UI
+
+<br />
+<br />
+<br />
+<br />
+
+<h5>Data binding using the onchange diretive.</h5> The reaction happens after input box loses focus. Type in the text box to see.
+<br />
+<br />
+@* the lambda function using below can be replaced with a function name from the base class *@
+<p><b>Name :</b> <input value="@Name1" @onchange="@(e => { Name1 = e.Value.ToString(); })" /></p>
+<p><b>Reactive value :</b> @Name1</p>
+
+
+<br />
+<br />
+<br />
+<br />
+
+<h5>Data binding using the bind and bind:event directive.</h5> The reaction happens immediately while typing. Type in the text box to see.
+<br />
+<br />
+@* When using @bind, adding at to the value is optional else always use @ when accessing data from the cs class *@
+<p><b>Name :</b> <input @bind="@Name2" @bind:event="oninput" /></p>
+<p><b>Reactive value :</b> @Name2</p>
+
+
+<br />
+<br />
+<br />
+<br />
+
+<h5>Data binding using the bind-style and bind-style:event directive.</h5> The background color is binded to the input value. Type in the text box to see.
+<br />
+<br />
+<p><b>Color :</b> <input @bind="Colour"  @bind:event="oninput" /></p>
+<div @bind-style="Colour2" @bind-style:event="onchange">
+    <h3>The background colour of this text changes</h3>
+</div>

@@ -1,0 +1,24 @@
+@page "/data-binding2"
+@inherits DataBinding2Base
+
+
+<PageTitle>Data binding</PageTitle>
+
+<h1>Two way binding - Continued</h1>
+
+Binding data flow from UI => Component and Component => UI
+
+<br />
+<br />
+<br />
+<br />
+
+<h5>Another example of two way data binding.</h5> Type in the text box to see.
+<br />
+<br />
+<div>
+    <textarea @bind="Description" @bind:event="oninput" />
+</div>
+<div>
+    Count : @Description.Length
+</div>

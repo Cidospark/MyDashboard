@@ -1,0 +1,10 @@
+@inherits DepartmentListBase
+
+<div>
+    <input type="checkbox" @bind="Show" style="max-width:15px; margin-right:5px;"/><label for="Show">Toggle Footer</label>
+    <div>Selection count: @SelectedEmployeesCount </div>
+</div>
+@foreach(var dept in Departments)
+{
+    <DepartmentCard Department="dept" Show="Show" OnSelection="EmployeeSelectionChanged"></DepartmentCard>
+}

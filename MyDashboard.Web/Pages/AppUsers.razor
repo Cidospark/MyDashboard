@@ -1,11 +1,11 @@
 @page "/users"
 @inherits AppUsersBase
 
-<PageTitle>Users</PageTitle>
+<PageTitle>All studnets</PageTitle>
 
-<h1>Users</h1>
+<h1>Registered students</h1>
 
-List of registered users on this app.
+List of registered students on this app.
 @if( AppUsers == null)
 {
     <p>Loading...</p>
@@ -59,7 +59,7 @@ else if(AppUsers.Any())
                 <td class="small-col">@user.Gender</td>
                 <td  style="text-align: left;" >@user.DateOfBrith.ToString("D")</td>
                 <td>
-                    <a href="#">Edit</a>
+                    <a href="@($"users/{user.AppUserId}/edit-profile")">Edit</a>
                 </td>
             </tr>
         }

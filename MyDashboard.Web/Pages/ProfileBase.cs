@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 public class ProfileBase : ComponentBase
 {
     public AppUser? appUser { get; set; }
-    public string buttonText { get; set; } = "Show footer";
+    public string buttonText { get; set; } = "Manage details";
+    public bool buttonState { get; set; } = true;
     public string toggleBtnClass { get; set; } = "hide-footer";
 
     [Inject]
@@ -22,15 +23,15 @@ public class ProfileBase : ComponentBase
 
     protected void Toggle_Button()
     {
-        if (buttonText == "Hide footer")
+        if (buttonState)
         {
-            buttonText = "Show footer";
-            toggleBtnClass = "hide-footer";
+            buttonState = false;
+            toggleBtnClass = null;
         }
         else
         {
-            buttonText = "Hide footer";
-            toggleBtnClass = null;
+            buttonState = true;
+            toggleBtnClass = "hide-footer";
         }
         
     }

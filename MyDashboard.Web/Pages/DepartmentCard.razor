@@ -1,0 +1,9 @@
+@inherits DepartmentCardBase
+<div style="margin-bottom:30px; margin-right:20px; background-color:rgba(255,255,255,.2); padding:20px; border-radius:10px;">
+    <input type="checkbox" checked="@IsSelected" @onchange="CheckboxChanged" />
+    <div>@Department.DepartmentId - @Department.DepartmentName</div>
+    @if(Show)
+    {
+        <div>Footer</div>
+    }
+</div>
