@@ -3,11 +3,11 @@
 
 <PageTitle>Edit Profile</PageTitle>
 
-@if(appUser == null)
+@if(EditUserDto == null)
 {
 <h1>Edit User's Profile</h1>
 }else{
-<h1>Edit @appUser.FirstName's Profile</h1>
+<h1>Edit @EditUserDto.FirstName's Profile</h1>
 }
 
 Update or delete user information.
@@ -18,23 +18,28 @@ Update or delete user information.
 <br />
 
 
-<EditForm Model="@appUser">
-    <div class="form-group row mb-2">
-        <label for="@appUser.FirstName" class="col-sm-2 col-form-label">First Name</label>
-        <div class="col-sm-10">
-            <InputText @bind-Value="appUser.FirstName" class="form-control" placeholder="First Name"/>
-        </div>
-    </div>
-    <div class="form-group row mb-2">
-        <label for="@appUser.LastName" class="col-sm-2 col-form-label">Last Name</label>
-        <div class="col-sm-10">
-            <InputText @bind-Value="appUser.LastName" class="form-control" placeholder="Last Name" />
+<EditForm Model="@EditUserDto" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator/>
+    
+    @* <ObjectGraphDataAnnotationsValidator /> for this read more on complex type validation [ValidateComplexType] *@
+    <div class="form-group row">
+        <label for="@EditUserDto.FirstName" class="col-sm-2 col-form-label">First Name</label>
+        <div class="col-sm-5">
+            <InputText @bind-Value="EditUserDto.FirstName" class="form-control" placeholder="First Name"/>
+            <ValidationMessage For="@(() => EditUserDto.FirstName)" />
         </div>
     </div>
     <div class="form-group row">
-        <label for="@appUser.Gender" class="col-sm-2 col-form-label">Gender</label>
-        <div class="col-sm-10">
-            <InputSelect @bind-Value="appUser.Gender" class="form-control">
+        <label for="@EditUserDto.LastName" class="col-sm-2 col-form-label">Last Name</label>
+        <div class="col-sm-5">
+            <InputText @bind-Value="EditUserDto.LastName" class="form-control" placeholder="Last Name" />
+            <ValidationMessage For="@(() => EditUserDto.LastName)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="@EditUserDto.Gender" class="col-sm-2 col-form-label">Gender</label>
+        <div class="col-sm-5">
+            <InputSelect @bind-Value="EditUserDto.Gender" class="form-control">
             @foreach(Gender gender in Enum.GetValues(typeof(Gender)))
             {
                 <option value="(int)@gender">@gender</option>
@@ -42,4 +47,19 @@ Update or delete user information.
             </InputSelect>
         </div>
     </div>
+    <div class="form-group row">
+        <label for="@EditUserDto.DateOfBrith" class="col-sm-2 col-form-label">Date</label>
+        <div class="col-sm-5">
+            <InputDate @bind-Value="EditUserDto.DateOfBrith" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2"></label>
+        <div class="col-sm-5">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </div>
+            
 </EditForm>
+        

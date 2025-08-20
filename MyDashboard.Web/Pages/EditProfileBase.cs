@@ -1,9 +1,19 @@
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Components;
 
 public class EditProfileBase : ComponentBase
 {
     [Inject]
     public IUserService _userService { get; set; }
+
+    [Inject]
+    public IMapper Mapper { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public EditUserDto EditUserDto { get; set; } = new EditUserDto();
 
     public AppUser? appUser { get; set; } = new AppUser();
 
@@ -14,5 +24,13 @@ public class EditProfileBase : ComponentBase
     {
         id = id ?? "1";
         appUser = await _userService.GetUserByIdAsync(int.Parse(id));
+        Mapper.Map(appUser, EditUserDto);
+    }
+
+    protected async Task HandleValidSubmit()
+    {
+        Mapper.Map(EditUserDto, appUser);
+        await _userService.UpdateUserAsync(appUser);
+        NavigationManager.NavigateTo("/users");
     }
 }
