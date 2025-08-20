@@ -1,18 +1,28 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop;
 
 public class ProfileBase : ComponentBase
 {
     public AppUser? appUser { get; set; }
     public string buttonText { get; set; } = "Manage details";
     public bool buttonState { get; set; } = true;
-    public string toggleBtnClass { get; set; } = "hide-footer";
+    public string toggleBtnClass { get; set; } = "hide";
 
     [Inject]
     public IUserService _userService { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
     [Parameter]
     public string id { get; set; } = "";
+
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; }
+
+
+    protected ConfirmBase _delDialog { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -31,8 +41,24 @@ public class ProfileBase : ComponentBase
         else
         {
             buttonState = true;
-            toggleBtnClass = "hide-footer";
+            toggleBtnClass = "hide";
         }
-        
+
+    }
+
+    protected async Task DeleteUser()
+    {
+        await _userService.DeleteAsync(appUser.AppUserId);
+        NavigationManager.NavigateTo("/users");
+    }
+
+    protected void OpenDeleteConfirmationModal()
+    {
+        _delDialog.OpenDeleteConfirmationModal();
+    }
+
+    protected async Task GoBack()
+    {
+        await JsRuntime.InvokeVoidAsync("history.back");
     }
 }

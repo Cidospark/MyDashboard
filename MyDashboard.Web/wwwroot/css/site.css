@@ -75,3 +75,13 @@ body{
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+.form-group{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.hide{
+    display: none;
+}

@@ -12,6 +12,11 @@ internal class UserService : IUserService
         await _httpClient.PostAsJsonAsync($"api/users/", user);
     }
 
+    public async Task DeleteAsync(int userId)
+    {
+        await _httpClient.DeleteFromJsonAsync<ResponseDto<AppUser>>($"/api/users/{userId}");
+    }
+
     public async Task<AppUser> GetUserByIdAsync(int id)
     {
         var result = await _httpClient.GetFromJsonAsync<ResponseDto<AppUser>>($"/api/users/{id}");

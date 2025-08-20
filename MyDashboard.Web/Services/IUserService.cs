@@ -4,4 +4,5 @@ public interface IUserService
     Task<AppUser> GetUserByIdAsync(int id);
     Task UpdateUserAsync(AppUser user);
     Task AddUserAsync(AppUser user);
+    Task DeleteAsync(int userId);
 }

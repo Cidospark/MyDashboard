@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 public class EditProfileBase : ComponentBase
 {
@@ -12,6 +13,10 @@ public class EditProfileBase : ComponentBase
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; }
+    
 
     public EditUserDto EditUserDto { get; set; } = new EditUserDto();
 
@@ -32,5 +37,10 @@ public class EditProfileBase : ComponentBase
         Mapper.Map(EditUserDto, appUser);
         await _userService.UpdateUserAsync(appUser);
         NavigationManager.NavigateTo("/users");
+    }
+
+    protected async Task GoBack()
+    {
+        await JsRuntime.InvokeVoidAsync("history.back");
     }
 }

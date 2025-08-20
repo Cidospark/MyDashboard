@@ -1,0 +1,86 @@
+@page "/add-user"
+@inherits CreateUserBase
+
+<PageTitle>Add New User</PageTitle>
+
+<h1>Register new student</h1>
+
+This is where a new student gets registered on the app.
+
+<br />
+<br />
+<br />
+<br />
+
+
+<EditForm Model="AddUserDto" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    
+    
+    <div class="form-group row">
+        <label for="@AddUserDto.FirstName" class="col-sm-2 col-form-label">First Name</label>
+        <div class="col-sm-5">
+            <InputText class="form-control" @bind-Value="AddUserDto.FirstName" placeholder="First name" />
+            <ValidationMessage For="@(() => AddUserDto.FirstName)" />
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label for="@AddUserDto.LastName" class="col-sm-2 col-form-label">Last Name</label>
+        <div class="col-sm-5">
+            <InputText class="form-control" @bind-Value="AddUserDto.LastName" placeholder="Last name" />
+            <ValidationMessage For="@(() => AddUserDto.LastName)" />
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label for="@AddUserDto.Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-5">
+            <InputText class="form-control" @bind-Value="AddUserDto.Email" placeholder="Email" />
+            <ValidationMessage For="@(() => AddUserDto.Email)" />
+
+            @if(!string.IsNullOrEmpty(EmailAlreayExistsErrMsg)){
+                <div class="text-danger">@EmailAlreayExistsErrMsg</div>
+            }
+
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label for="@AddUserDto.ConfirmEmail" class="col-sm-2 col-form-label">Confirm Email</label>
+        <div class="col-sm-5">
+            <InputText class="form-control" @bind-Value="AddUserDto.ConfirmEmail" placeholder="Confirm email" />
+            <ValidationMessage For="@(() => AddUserDto.ConfirmEmail)" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="@AddUserDto.Gender" class="col-sm-2 col-form-label">Gender</label>
+        <div class="col-sm-5">
+            <InputSelect @bind-Value="AddUserDto.Gender" class="form-control">
+            @foreach(Gender gender in Enum.GetValues(typeof(Gender)))
+            {
+                <option value="(int)@gender">@gender</option>
+            }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="@AddUserDto.DateOfBrith" class="col-sm-2 col-form-label">Date</label>
+        <div class="col-sm-5">
+            <InputDate @bind-Value="AddUserDto.DateOfBrith" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2"></label>
+        <div class="col-sm-5 d-flex">
+            <button class="btn btn-primary" style="margin-right: 10px;" type="submit">Submit</button>
+            <a href="/users" class="btn btn-primary">Back to users list</a>
+        </div>
+    </div>
+    
+</EditForm>
