@@ -1,0 +1,89 @@
+@page "/study-topics"
+
+
+<PageTitle>Study Topics</PageTitle>
+
+<h1>Study topics</h1>
+
+Other topics to focus on when learning blazor.
+
+<br />
+<br />
+<br />
+<br />
+
+<p class="m-5">
+    <h5>Attribute splatting</h5>
+    A technique that will help you simplfy the amount of parameters you can pass from a parant component to a child component. 
+    <br />
+    <a target="_blank" href="https://www.pragimtech.com/blog/blazor/blazor-attribute-splatting/">link</a>
+</p>
+
+
+<p class="m-5">
+    <h5>Arbitrary attribute</h5>
+    A technique that will help you specify which default value to prioritise when passing value from a parant component to a child component. 
+    <br />
+    <a target="_blank" href="https://www.pragimtech.com/blog/blazor/blazor-arbitrary-attributes/">link</a>
+</p>
+
+
+<p class="m-5">
+    <h5>Cascading values and parameters</h5>
+    A technique that will help you pass data down to any of the descendant components in the component tree and access the cascading value. 
+    <br />
+    <a target="_blank" href="https://www.pragimtech.com/blog/blazor/blazor-cascading-values-parameters/">link</a>
+</p>
+
+
+<p class="m-5">
+    <h5>Multiple cascading values and parameters</h5>
+    There are 2 ways to cascade values from the parent component to a child component. Cascading by type and cascading by name. 
+    <br />
+    <a target="_blank" href=https://www.pragimtech.com/blog/blazor/blazor-multiple-cascading-parameters/">link</a>
+</p>
+
+
+<p class="m-5">
+    <h5>Cascading values Performance</h5>
+    When the cascaded value changes all the components in the entire component tree, that use the cascaded value are automatically updated. 
+    However, this constant monitoring requires resources and it is better to turn of this active monitoring when it is not required to avoid performance issues. 
+    <br />
+    <a target="_blank" href=https://www.pragimtech.com/blog/blazor/blazor-cascading-values-performance/">link</a>
+</p>
+
+<h5>Example of cascading value</h5>
+<button class="btn btn-primary" @onclick="IncrementCounter">
+    Increment Counter
+</button>
+
+<CascadingValue Value="@Counter" Name="Counter" IsFixed="false">
+    <CascadingChildComponent></CascadingChildComponent>
+</CascadingValue>
+
+
+<p>
+    <br />
+</p>
+
+
+<h5>Example of multiple cascading value</h5>
+<button class="btn btn-primary" @onclick="IncrementCounter">
+    Increment Counter
+</button>
+
+<CascadingValue Value="@Style" Name="Style" IsFixed="true">
+    <CascadingValue Value="@Counter" Name="Counter" IsFixed="false">
+        <CascadingChildComponent></CascadingChildComponent>
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+    public int Counter { get; set; } = 0;
+    public string Style { get; set; } = "border:1px solid red; color:red";
+
+    private void IncrementCounter()
+    {
+        Counter = Counter + 1;
+    }
+}

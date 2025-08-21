@@ -1,0 +1,9 @@
+<p style="@Style">Child Component Text - @Counter</p>
+
+@code {
+    [CascadingParameter(Name = "Counter")]
+    public int Counter { get; set; }
+
+    [CascadingParameter(Name ="Style")]
+    public string Style { get; set; } = "";
+}
