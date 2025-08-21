@@ -10,6 +10,11 @@ public class ProfileBase : ComponentBase
     public bool buttonState { get; set; } = true;
     public string toggleBtnClass { get; set; } = "hide";
 
+    public Dictionary<string, object> AttributeSplattingFromParent { get; set; } = new Dictionary<string, object>(){
+                {"Title", "Confirm Delete."},
+                {"Text", "Please confirm your action to delete user."}
+            };
+
     [Inject]
     public IUserService _userService { get; set; }
     [Inject]
@@ -29,6 +34,14 @@ public class ProfileBase : ComponentBase
     {
         id = id ?? "1";
         appUser = await _userService.GetUserByIdAsync(int.Parse(id));
+        if (appUser != null)
+        {
+            AttributeSplattingFromParent = new Dictionary<string, object>
+            {
+                {"Title", "Confirm Delete."},
+                {"Text", $"Please confirm your action to delete user - {appUser.FirstName} {appUser.LastName} "}
+            };
+        }
     }
 
     protected void Toggle_Button()

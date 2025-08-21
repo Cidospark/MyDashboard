@@ -8,10 +8,17 @@ public class ConfirmBase : ComponentBase
     [Parameter]
     public EventCallback<bool> OnDeleteCallBack { get; set; }
 
+    // [Parameter]
+    // public string Title { get; set; } = "";
+    // [Parameter]
+    // public string Text { get; set; } = "";
+
     [Parameter]
-    public string Title { get; set; } = "";
-    [Parameter]
-    public string Text { get; set; } = "";
+    public Dictionary<string, object> AttributeSplatting { get; set; } = new Dictionary<string, object>
+    {
+        {"Title", ""},
+        {"Text", ""}
+    };
 
 
     protected void CloseDeleteConfirmationModal()
